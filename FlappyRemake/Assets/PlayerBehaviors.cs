@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerBehaviors : MonoBehaviour
 {
     public float Jump = 1.5f;
     public float RotationSpeed = 10f;
     public Rigidbody2D player;
+    public GameManager gameManager;
+
+// Mouvement
     
     void Update()
     {
@@ -20,5 +23,14 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         transform.rotation = Quaternion.Euler(0, 0, player.velocity.y * RotationSpeed);
+    }
+
+    // Collisions
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            gameManager.GameOver();
+        }
     }
 }
